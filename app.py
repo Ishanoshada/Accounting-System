@@ -15,20 +15,18 @@ def accounting_main(user_data, username):
            print("\n**********************************************")
            print(f"\n\tAccount Management ( Your ID: {user_data['id']} and Balance : {user_data['balance']} )")
            print("\n**********************************************\n")
-           print("\t1. Sign up")
-           print("\t2. Log in")
-           print("\t3. Deposit Money")
-           print("\t4. Withdraw Money")
-           print("\t5. View Deposit History")
-           print("\t6. View Withdrawal History")
-           print("\t7. Quit\n")
+           
+           print("\t1. Deposit Money")
+           print("\t2. Withdraw Money")
+           print("\t3. View Deposit History")
+           print("\t4. View Withdrawal History")
+           print("\t5. Quit\n")
 
            choice = inputf("\tEnter your choice: ")
 
-           if choice == "1":
-                print(f"\n\t [+] Your current balance is: {user_data['balance']}")
+          
 
-           elif choice == "2":
+           if choice == "1":
                 amount = float(inputf("\n\tEnter the amount to deposit: "))
                 target_id = inputf("\n\tEnter the target user's ID or username: ")
                 result = deposit(users, user_data['id'], target_id, amount)
@@ -38,7 +36,7 @@ def accounting_main(user_data, username):
                 else:
                     print("\t [+] User(s) not found.")
 
-           elif choice == "3":
+           elif choice == "2":
                 amount = float(inputf("\n\tEnter the amount to withdraw: "))
                 result = withdraw(users, user_data['id'], amount)
                 if isinstance(result, str):
@@ -48,7 +46,7 @@ def accounting_main(user_data, username):
                  
             #    print(result)
 
-           elif choice == "5":
+           elif choice == "3":
             deposit_history = get_deposit_history(users[username])
             if deposit_history:
                 print("\nDeposit History:")
@@ -56,7 +54,8 @@ def accounting_main(user_data, username):
                     print(f"Timestamp: {transaction['timestamp']}, Amount: {transaction['amount']}, Target User ID: {transaction['target_user']}")
             else:
                 print("\nNo deposit history.")
-           elif choice == "6":
+                
+           elif choice == "4":
             withdrawal_history = get_withdrawal_history(users[username])
             if withdrawal_history:
                 print("\nWithdrawal History:")
@@ -65,8 +64,9 @@ def accounting_main(user_data, username):
             else:
                 print("\nNo withdrawal history.")
 
-           elif choice == "7":
-            break            
+           elif choice == "5":
+             break            
+            
     else:
         print("You are not logged in. Please log in or sign up first.")
 
@@ -75,7 +75,7 @@ def main():
     while True:
         data_refresh()
         print("\n**********************************************")
-        print("\n\tWelcome to CLI Banking System")
+        print("\n\tWelcome to CLI Accounting System")
         print("\n**********************************************\n")
         print("\t1. Sign up")
         print("\t2. Log in")
@@ -96,7 +96,10 @@ def main():
             accounting_main(data,username)
 
         elif choice == "3":
+            
             break
 
 if __name__ == "__main__":
     main()
+    print("\nThank you for using CLI Accounting system. Goodbye!")
+    

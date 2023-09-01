@@ -1,4 +1,4 @@
-import json,uuid
+import json,time,uuid
 import hashlib
 from . import *
 
@@ -8,6 +8,14 @@ try:
         users = json.load(file)
 except FileNotFoundError:
     users = {}
+    
+def data_refresh():
+    global users
+    try:
+      with open(user_file, "r") as file:
+        users = json.load(file)
+    except FileNotFoundError:
+      users = {}
 
 def save_data(users):
     with open(user_file, "w") as file:
@@ -19,7 +27,7 @@ def hash_password(password):
     return (salt, hashed_password)
 
 def generate_id():
-    return str(uuid.uuid4())
+    return str(int((int(time.time())*int(time.time())/(int(time.time())*9))))
 
 # Function to sign up a new user
 def signup(users,username, password):
@@ -32,10 +40,12 @@ def signup(users,username, password):
     users[username] = {
         "id": user_id,
         "salt": salt,
-        "password": hashed_password
+        "password": hashed_password,
+        "balance":0
     }
     save_data(users)
-    return "Signup successful. Your ID is: {}".format(user_id)
+    data_refresh()
+    return users[username]
 
 # Function to log in an existing user
 def login(users,username, password):
@@ -46,9 +56,12 @@ def login(users,username, password):
     stored_password = users[username]["password"]
     salt = users[username]["salt"]
     entered_password = hashlib.sha256(salt.encode() + password.encode()).hexdigest()
+    id = users[username]["id"]
 
     if entered_password == stored_password:
-        return "Login successful. Welcome, {}!".format(username)
+        data_refresh()
+        return users[username]
     else:
         return "Incorrect password. Please try again."
+
 

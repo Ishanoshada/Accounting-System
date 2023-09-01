@@ -41,7 +41,9 @@ def signup(users,username, password):
         "id": user_id,
         "salt": salt,
         "password": hashed_password,
-        "balance":0
+        "balance":0,
+        "deposit_history": [],
+        "withdrawal_history": [],
     }
     save_data(users)
     data_refresh()
@@ -63,5 +65,4 @@ def login(users,username, password):
         return users[username]
     else:
         return "Incorrect password. Please try again."
-
 

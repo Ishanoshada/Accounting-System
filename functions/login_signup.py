@@ -53,7 +53,7 @@ def signup(users, username, password):
     global username_
     username_ = username
     if username in users:
-        return "Username already exists. Please choose another."
+        return "\n\tUsername already exists. Please choose another."
 
     salt, hashed_password = hash_password(password)
     user_id = generate_id()
@@ -74,7 +74,7 @@ def login(users, username, password):
     global username_
     username_ = username
     if username not in users:
-        return "User does not exist. Please sign up."
+        return "\n\tUser does not exist. Please sign up."
 
     stored_password = users[username]["password"]
     salt = users[username]["salt"]
@@ -84,7 +84,7 @@ def login(users, username, password):
     if entered_password == stored_password:
         return users[username]
     else:
-        return "Incorrect password. Please try again."
+        return "\n\tIncorrect password. Please try again."
 
 def logged(username=None, password=None):
     try:
@@ -125,7 +125,7 @@ def logged(username=None, password=None):
 def change_password(users, username, old_password, new_password):
     # Function to change a user's password
     if username not in users:
-        return "User does not exist. Please sign up."
+        return "\n\tUser does not exist. Please sign up."
 
     stored_password = users[username]["password"]
     salt = users[username]["salt"]
@@ -140,6 +140,6 @@ def change_password(users, username, old_password, new_password):
         save_data(users)
         data_refresh(username)
         os.system("rm -rf data/cookie.txt")
-        return "Password changed successfully."
+        return "\n\tPassword changed successfully."
     else:
-        return "Incorrect old password. Password change failed."
+        return "\n\tIncorrect old password. Password change failed."

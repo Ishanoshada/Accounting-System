@@ -1,7 +1,6 @@
 import json
 import time
-import uuid
-import hashlib
+import hashlib,datetime
 
 user_file = "data/users.json"
 
@@ -15,13 +14,16 @@ def save_data(users):
     with open(user_file, "w") as file:
         json.dump(users, file, indent=4)
 
-# Updated deposit function to accept the user's ID and target user's ID
+
 def deposit(users, user_id, target_id, amount):
     uname, user = find_user(users, user_id)
     tname, target_user = find_user(users, target_id)
 
     if user and target_user:
-        user['balance'] -= amount  # Deduct from the current user's balance
+        if tname == uname:
+            pass
+        else:
+         user['balance'] -= amount  # Deduct from the current user's balance
         target_user['balance'] += amount  # Add to the target user's balance
 
         # Add deposit history to both users
@@ -59,7 +61,7 @@ def find_user(users, identifier):
 def add_deposit_history(user, target_user, amount):
     timestamp = int(time.time())
     deposit_info = {
-        "timestamp": timestamp,
+        "timestamp": datetime.datetime.now(),
         "amount": amount,
         "target_user": target_user['id'],
     }
@@ -87,3 +89,4 @@ def get_deposit_history(user):
 def get_withdrawal_history(user):
     
     return user.get('withdrawal_history', [])
+

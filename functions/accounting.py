@@ -2,9 +2,11 @@ import json
 import time
 import hashlib
 import datetime
+import csv
 
 # File path for storing user data
 user_file = "data/users.json"
+csv_export_file = "data/transactions.csv" 
 
 try:
     # Load user data from the file if it exists
@@ -56,6 +58,22 @@ def withdraw(users, identifier, amount):
     else:
         return None
 
+def data_refresh(username_):
+    global users
+    global user_data
+    try:
+        # Load user data from the file if it exists
+        with open(user_file, "r") as file:
+            users = json.load(file)
+            
+            # Retrieve the user's data based on the username
+            user_data = users[username_]
+            return user_data
+    except FileNotFoundError:
+        # Initialize an empty users dictionary if the file doesn't exist
+        users = {}
+        return None
+
 # Helper function to find a user by ID or username
 def find_user(users, identifier):
     for i in users:
@@ -79,7 +97,7 @@ def add_withdrawal_history(user, amount):
     # Function to add withdrawal history to users
     timestamp = int(time.time())
     withdrawal_info = {
-        "timestamp": timestamp,
+        "timestamp": str(datetime.datetime.now()),
         "amount": amount,
     }
     if 'withdrawal_history' not in user:
@@ -93,3 +111,24 @@ def get_deposit_history(user):
 def get_withdrawal_history(user):
     # Function to get withdrawal history for a user
     return user.get('withdrawal_history', [])
+
+
+def export_transactions_to_csv(username):
+    # Function to export user's transaction history to a CSV file
+    user_data = data_refresh(username)
+    deposit_history = get_deposit_history(user_data)
+    withdrawal_history = get_withdrawal_history(user_data)
+
+    # Combine deposit and withdrawal history
+    transactions = deposit_history + withdrawal_history
+
+    # Write transactions to a CSV file
+    with open(csv_export_file, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Timestamp', 'Transaction Type', 'Amount'])
+        for transaction in transactions:
+            transaction_type = "Deposit" if "target_user" in transaction else "Withdrawal"
+            writer.writerow([transaction['timestamp'], transaction_type, transaction['amount']])
+        return csv_export_file
+
+

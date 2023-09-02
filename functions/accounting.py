@@ -1,21 +1,26 @@
 import json
 import time
-import hashlib,datetime
+import hashlib
+import datetime
 
+# File path for storing user data
 user_file = "data/users.json"
 
 try:
+    # Load user data from the file if it exists
     with open(user_file, "r") as file:
         users = json.load(file)
 except FileNotFoundError:
+    # Initialize an empty users dictionary if the file doesn't exist
     users = {}
 
 def save_data(users):
+    # Save the users dictionary to the user data file
     with open(user_file, "w") as file:
         json.dump(users, file, indent=4)
 
-
 def deposit(users, user_id, target_id, amount):
+    # Function to handle deposit operations
     uname, user = find_user(users, user_id)
     tname, target_user = find_user(users, target_id)
 
@@ -23,7 +28,7 @@ def deposit(users, user_id, target_id, amount):
         if tname == uname:
             pass
         else:
-         user['balance'] -= amount  # Deduct from the current user's balance
+            user['balance'] -= amount  # Deduct from the current user's balance
         target_user['balance'] += amount  # Add to the target user's balance
 
         # Add deposit history to both users
@@ -35,6 +40,7 @@ def deposit(users, user_id, target_id, amount):
         return None
 
 def withdraw(users, identifier, amount):
+    # Function to handle withdrawal operations
     i, user = find_user(users, identifier)
     if user:
         if user['balance'] >= amount:
@@ -57,11 +63,11 @@ def find_user(users, identifier):
             return i, users[i]
     return None
 
-# Function to add deposit history to users
 def add_deposit_history(user, target_user, amount):
+    # Function to add deposit history to users
     timestamp = int(time.time())
     deposit_info = {
-        "timestamp": datetime.datetime.now(),
+        "timestamp": str(datetime.datetime.now()),
         "amount": amount,
         "target_user": target_user['id'],
     }
@@ -69,8 +75,8 @@ def add_deposit_history(user, target_user, amount):
         user['deposit_history'] = []
     user['deposit_history'].append(deposit_info)
 
-# Function to add withdrawal history to users
 def add_withdrawal_history(user, amount):
+    # Function to add withdrawal history to users
     timestamp = int(time.time())
     withdrawal_info = {
         "timestamp": timestamp,
@@ -80,13 +86,10 @@ def add_withdrawal_history(user, amount):
         user['withdrawal_history'] = []
     user['withdrawal_history'].append(withdrawal_info)
 
-
-
 def get_deposit_history(user):
-  
+    # Function to get deposit history for a user
     return user.get('deposit_history', [])
 
 def get_withdrawal_history(user):
-    
+    # Function to get withdrawal history for a user
     return user.get('withdrawal_history', [])
-

@@ -53,8 +53,11 @@ Follow the on-screen prompts to perform various banking operations. Here are som
 6. **View Deposit History:** View a history of your deposit transactions.
 
 7. **View Withdrawal History:** View a history of your withdrawal transactions.
+   
+8. **Password Change:** Change User password
 
-8. **Quit:** Exit the application.
+9. **Quit:** Exit the application.
+
 
 ## Authors
 

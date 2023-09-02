@@ -7,6 +7,8 @@ import json
 import hashlib
 import base64
 import time
+from forex_python.converter import CurrencyRates  
+
 
 # Import functions from other modules
 from functions.login_signup import (
@@ -21,6 +23,8 @@ from functions.accounting import (
     withdraw,
     get_deposit_history,
     get_withdrawal_history,
+    export_transactions_to_csv,
+    
 )
 
 # Define colors for console output
@@ -35,6 +39,10 @@ bcolors = [
 # File paths
 user_file = "data/users.json"
 cookie_file = "data/cookie.txt"
+csv_export_file = "data/transactions.csv"  
+
+
+currency_converter = CurrencyRates()  # Added for currency conversion
 
 # Initialize users dictionary or load existing user data from a file
 try:
@@ -56,7 +64,7 @@ def inputf(output):
     return input(f"\n\t\033[1;97m[>] {output}")
 
 
-def printf(text, base_delay=0.025, jitter=0.02):
+def printf(text, base_delay=0.01, jitter=0.02):
     # Function to print text with a simulated typing effect
     for char in text:
         delay = max(0, base_delay + random.uniform(-jitter, jitter))
@@ -80,6 +88,41 @@ def create_table(text):
     table = f"{border}\n{formatted_text}{border}"
 
     return table
+
+
+#Currency Converter
+def convert_currency(username):
+    try:
+        source_currency = inputf("Enter source currency (e.g., USD): ").upper()
+        target_currency = inputf("Enter target currency (e.g., EUR): ").upper()
+        amount = float(inputf("Enter the amount to convert: "))
+        
+        result = currency_converter.convert(source_currency, target_currency, amount)
+        printf(f"\n\t Result :> {amount} {source_currency} is approximately {result} {target_currency}")
+    except Exception as e:
+        print("Error performing currency conversion:", str(e))
+
+# Function for user input with password complexity check
+def input_password(output):
+    while True:
+        password = input(f"{output}")
+        if is_password_complex(password):
+            return password
+        else:
+            print("\n\t[+] Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.")
+
+# Function to check password complexity
+def is_password_complex(password):
+    if len(password) < 8:
+        return False
+    if not any(char.isupper() for char in password):
+        return False
+    if not any(char.islower() for char in password):
+        return False
+    if not any(char.isdigit() for char in password):
+        return False
+    return True
+
 
 
 def accounting_main(user_data, username):
@@ -108,8 +151,10 @@ def accounting_main(user_data, username):
             printf("\t3. View Deposit History\n")
             printf("\t4. View Withdrawal History\n")
             printf("\t5. Change Password\n")
-            printf("\t6. Quit\n")
-            printf("\t7. Logout\n")
+            printf("\t6. Export Data\n ") 
+            printf("\t7. Convert Currency\n")
+            printf("\t8. Quit\n")
+            printf("\t9. Logout\n")
 
             choice = inputf("\tEnter your choice: ")
 
@@ -158,15 +203,24 @@ def accounting_main(user_data, username):
                 else:
                     printf("\nNo withdrawal history.")
             elif choice == "5":
-                old_password = getpass.getpass("\n\t\033[1;97m[>] Enter your old password: ")
-                new_password = getpass.getpass("\n\t\033[1;97m[>] Enter your new password: ")
+                old_password = input_password("\n\t\033[1;97m[>] Enter your old password: ")
+                new_password = input_password("\n\t\033[1;97m[>] Enter your new password: ")
                 result = change_password(users, username, old_password, new_password)
                 printf("\n" + result)
-
+                
             elif choice == "6":
+              if not username:
+                printf("You need to log in to export data.")
+              else:
+                export_transactions_to_csv(username)
+                printf("\n[+] Transaction data exported to CSV file.(data/transactions.csv}")
+                
+            elif  choice == "7":
+                convert_currency(username)
+            elif choice == "8":
                 break
 
-            elif choice == "7":
+            elif choice == "9":
                 ch = inputf("Do you want to logout? (0-no/1-yes): ")
                 if "0" not in ch:
                     os.system("rm -rf data/cookie.txt")
@@ -201,7 +255,7 @@ def main():
 
         if choice == "1":
             username = inputf("Enter your username: ")
-            password = getpass.getpass("\n\t\033[1;97m[>] Enter your password:\033[0m ")
+            password = input_password("\n\t\033[1;97m[>] Enter your password:\033[0m ")
             data = signup(users, username, password)
             if type(data) == str:
                 printf(data)

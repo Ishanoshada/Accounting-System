@@ -1,68 +1,90 @@
 # CLI Accounting System
 
-The CLI Accounting System is a command-line interface application that allows users to perform basic accounting operations such as deposit, withdrawal, and password management. It's designed for simple financial tracking and management.
+The CLI Accounting System is a command-line interface application that allows users to manage their accounts, perform financial transactions, and export transaction data to a CSV file. It provides a simple and secure way to handle accounting tasks from the command line.
 
 ## Features
 
-- User Registration: Users can sign up for an account with a username and password.
-- User Login: Registered users can log in using their credentials.
-- Deposit Money: Users can deposit money into their accounts or into other users' accounts.
-- Withdraw Money: Users can withdraw money from their own accounts.
-- Transaction History: Users can view their deposit and withdrawal history.
-- Password Change: Users can change their account passwords.
-- Logout: Users can log out of their accounts securely.
+- **User Sign Up**: New users can sign up with a unique username and password.
 
-## Prerequisites
+- **User Login**: Registered users can log in using their credentials.
 
-- Python 3.x installed on your system.
-- Required Python libraries are included in the code.
+- **Password Change**: Users can change their passwords for added security.
 
-## How to Use
+- **Account Management**: Users can deposit money, withdraw funds, view deposit history, and view withdrawal history.
 
-1. Clone this repository to your local machine:
+- **Data Export**: Users can export their transaction data to a CSV file.
 
-   ```bash
+- **Currency Conversion**: Users can perform currency conversion with up-to-date exchange rates.
+
+## Installation
+
+1. Clone the repository:
+
+   ```
    git clone https://github.com/ishanoshada/PyChallenge-Accounting
    ```
 
 2. Navigate to the project directory:
 
-   ```bash
+   ```
    cd PyChallenge-Accounting
    ```
 
-3. Run the application:
+3. Create a virtual environment (optional but recommended):
 
-   ```bash
+   ```
+   python -m venv venv
+   ```
+
+4. Activate the virtual environment:
+
+   - Windows:
+
+     ```
+     venv\Scripts\activate
+     ```
+
+   - macOS and Linux:
+
+     ```
+     source venv/bin/activate
+     ```
+
+5. Install the required packages:
+
+   ```
+   pip install -r requirements.txt
+   ```
+
+## Usage
+
+1. Run the application:
+
+   ```
    python app.py
    ```
 
-4. Follow the on-screen instructions to sign up, log in, and perform accounting operations.
+2. Follow the on-screen instructions to sign up or log in.
 
-## Project Structure
+3. Use the menu options to manage your account, perform transactions, export data, or convert currency.
 
-- `app.py`: The main application script that handles user interactions and the main menu.
-- `functions/`: Directory containing Python modules for user registration, login, password management, and accounting operations.
-- `data/`: Directory for storing user data and cookies.
-- `README.md`: This README file.
+## Currency Conversion
 
-## Screenshots
+To use the currency conversion feature, you need to provide the source currency (e.g., USD), target currency (e.g., EUR), and the amount you want to convert. The application will fetch up-to-date exchange rates and provide the converted amount.
 
-![Screenshot 1](screenshots/screenshot1.png)
+## Data Export
 
-![Screenshot 2](screenshots/screenshot2.png)
+You can export your transaction data to a CSV file by selecting the "Export Data" option from the main menu. The exported CSV file will contain information about your deposits and withdrawals, including timestamps and amounts.
 
-## Contributors
+## Authors
 
 - [Ishan oshada](https://github.com/ishanoshada)
+- 
+
+## Contributing
+
+Contributions are welcome! If you have ideas for improvements or new features, please create an issue or submit a pull request.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Thanks to [Intelliblitz Team](https://intelliblitz.com/) for the inspiration and initial codebase.
-
-
-Feel free to modify and extend this project according to your needs. Enjoy using the CLI Accounting System!
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

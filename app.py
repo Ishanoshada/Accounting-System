@@ -7,7 +7,7 @@ import json
 import hashlib
 import base64
 import time
-from forex_python.converter import CurrencyRates  
+from forex_python.converter import CurrencyRates
 
 
 # Import functions from other modules
@@ -18,13 +18,14 @@ from functions.login_signup import (
     logged,
     data_refresh,
 )
+
 from functions.accounting import (
     deposit,
     withdraw,
     get_deposit_history,
     get_withdrawal_history,
     export_transactions_to_csv,
-    
+
 )
 
 # Define colors for console output
@@ -39,7 +40,7 @@ bcolors = [
 # File paths
 user_file = "data/users.json"
 cookie_file = "data/cookie.txt"
-csv_export_file = "data/transactions.csv"  
+csv_export_file = "data/transactions.csv"
 
 
 currency_converter = CurrencyRates()  # Added for currency conversion
@@ -50,6 +51,7 @@ try:
         users = json.load(file)
 except FileNotFoundError:
     users = {}
+
 
 def clear_screen():
     # Check if the operating system is Windows
@@ -90,19 +92,22 @@ def create_table(text):
     return table
 
 
-#Currency Converter
+# Currency Converter
 def convert_currency(username):
     try:
         source_currency = inputf("Enter source currency (e.g., USD): ").upper()
         target_currency = inputf("Enter target currency (e.g., EUR): ").upper()
         amount = float(inputf("Enter the amount to convert: "))
-        
+
         result = currency_converter.convert(source_currency, target_currency, amount)
-        printf(f"\n\t Result :> {amount} {source_currency} is approximately {result} {target_currency}")
+        printf(
+            f"\n\t Result :> {amount} {source_currency} is approximately {result} {target_currency}")
     except Exception as e:
         print("Error performing currency conversion:", str(e))
 
 # Function for user input with password complexity check
+
+
 def input_password(output):
     while True:
         password = input(f"{output}")
@@ -112,6 +117,8 @@ def input_password(output):
             print("\n\t[+] Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.")
 
 # Function to check password complexity
+
+
 def is_password_complex(password):
     if len(password) < 8:
         return False
@@ -122,8 +129,6 @@ def is_password_complex(password):
     if not any(char.isdigit() for char in password):
         return False
     return True
-
-
 
 def accounting_main(user_data, username):
     # Main function for accounting operations
@@ -151,16 +156,17 @@ def accounting_main(user_data, username):
             printf("\t3. View Deposit History\n")
             printf("\t4. View Withdrawal History\n")
             printf("\t5. Change Password\n")
-            printf("\t6. Export Data\n ") 
+            printf("\t6. Export Data\n ")
             printf("\t7. Convert Currency\n")
-            printf("\t8. Quit\n")
+            printf("\t8. Back\n")
             printf("\t9. Logout\n")
 
             choice = inputf("\tEnter your choice: ")
 
             if choice == "1":
                 amount = float(inputf("\n\tEnter the amount to deposit: "))
-                target_id = inputf("\n\tEnter the target user's ID or username: ")
+                target_id = inputf(
+                    "\n\tEnter the target user's ID or username: ")
                 result = deposit(users, user_data['id'], target_id, amount)
                 if result:
                     user_data = data_refresh(username)
@@ -203,19 +209,23 @@ def accounting_main(user_data, username):
                 else:
                     printf("\nNo withdrawal history.")
             elif choice == "5":
-                old_password = input_password("\n\t\033[1;97m[>] Enter your old password: ")
-                new_password = input_password("\n\t\033[1;97m[>] Enter your new password: ")
-                result = change_password(users, username, old_password, new_password)
+                old_password = input_password(
+                    "\n\t\033[1;97m[>] Enter your old password: ")
+                new_password = input_password(
+                    "\n\t\033[1;97m[>] Enter your new password: ")
+                result = change_password(
+                    users, username, old_password, new_password)
                 printf("\n" + result)
-                
+
             elif choice == "6":
-              if not username:
-                printf("You need to log in to export data.")
-              else:
-                export_transactions_to_csv(username)
-                printf("\n[+] Transaction data exported to CSV file.(data/transactions.csv}")
-                
-            elif  choice == "7":
+                if not username:
+                    printf("You need to log in to export data.")
+                else:
+                    export_transactions_to_csv(username)
+                    printf(
+                        "\n[+] Transaction data exported to CSV file.(data/transactions.csv}")
+
+            elif choice == "7":
                 convert_currency(username)
             elif choice == "8":
                 break
@@ -255,7 +265,8 @@ def main():
 
         if choice == "1":
             username = inputf("Enter your username: ")
-            password = input_password("\n\t\033[1;97m[>] Enter your password:\033[0m ")
+            password = input_password(
+                "\n\t\033[1;97m[>] Enter your password:\033[0m ")
             data = signup(users, username, password)
             if type(data) == str:
                 printf(data)
@@ -278,7 +289,8 @@ def main():
             else:
 
                 username = inputf("Enter your username: ")
-                password = getpass.getpass("\n\t\033[1;97m[>] Enter your password:\033[0m ")
+                password = getpass.getpass(
+                    "\n\t\033[1;97m[>] Enter your password:\033[0m ")
                 data = login(users, username, password)
 
                 if type(data) == str:
@@ -289,10 +301,10 @@ def main():
                     accounting_main(data, username)
 
         elif choice == "3":
-
             break
 
 
 if __name__ == "__main__":
     main()
-    printf("\n [•] Thank you for using CLI Accounting system ( by Intelliblitz Team ). Goodbye!")
+    printf(
+        "\n [•] Thank you for using CLI Accounting system ( by Intelliblitz Team ). Goodbye!")

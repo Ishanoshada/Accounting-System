@@ -4,7 +4,7 @@
 
 Welcome to the Accounting System, a CLI-based financial management application developed by **Intelliblitz Team**. This Python-powered tool allows you to manage your finances, perform currency conversions, and keep track of your financial transactions easily.
 
-![Accounting System](demo.gif)
+![Accounting System](https://github.com/Ishanoshada/Ishanoshada/blob/main/ss/IMG_20230905_114012.jpg?raw=true)
 
 ## Table of Contents
 - [Overview](#overview)

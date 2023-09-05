@@ -1,5 +1,4 @@
 # Import necessary modules
-import getpass
 import random
 import os
 import datetime
@@ -13,6 +12,7 @@ try:
     from forex_python.converter import CurrencyRates
 except:
     os.system("pip install forex_python ")
+    from forex_python.converter import CurrencyRates
 
 # Import functions from other modules
 from functions.login_signup import (

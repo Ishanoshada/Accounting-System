@@ -4,11 +4,15 @@ import random
 import os
 import datetime
 import json
-import hashlib
 import base64
 import time
-from forex_python.converter import CurrencyRates
 
+# Try to import the 'CurrencyRates' class from the 'forex_python.converter' module.
+# If it's not installed, attempt to install it using pip.
+try:
+    from forex_python.converter import CurrencyRates
+except:
+    os.system("pip install forex_python ")
 
 # Import functions from other modules
 from functions.login_signup import (
@@ -17,6 +21,7 @@ from functions.login_signup import (
     change_password,
     logged,
     data_refresh,
+    save_data
 )
 
 from functions.accounting import (
@@ -25,25 +30,28 @@ from functions.accounting import (
     get_deposit_history,
     get_withdrawal_history,
     export_transactions_to_csv,
-
 )
 
 # Define colors for console output
 bcolors = [
-    '\033[94m',
-    '\033[96m',
-    '\033[92m',
-    '\033[93m',
-    '\033[1;33m',
+    '\033[94m',   # Blue
+    '\033[96m',   # Cyan
+    '\033[92m',   # Green
+    '\033[93m',   # Yellow
+    '\033[1;33m', # Bold Yellow
 ]
 
-# File paths
+# File paths and checking
 user_file = "data/users.json"
 cookie_file = "data/cookie.txt"
 csv_export_file = "data/transactions.csv"
 
+folder_paths = ["data"]
+for folder_path in folder_paths:
+    os.makedirs(folder_path, exist_ok=True)
 
-currency_converter = CurrencyRates()  # Added for currency conversion
+# Initialize currency converter
+currency_converter = CurrencyRates()
 
 # Initialize users dictionary or load existing user data from a file
 try:
@@ -52,7 +60,7 @@ try:
 except FileNotFoundError:
     users = {}
 
-
+# Function to clear the screen
 def clear_screen():
     # Check if the operating system is Windows
     if os.name == 'nt':
@@ -60,14 +68,12 @@ def clear_screen():
     else:
         os.system('clear')
 
-
 # Function for user input
 def inputf(output):
-    return input(f"\n\t\033[1;97m[>] {output}")
+    return input(f"\n\n\t\033[1;97m[>] {output}")
 
-
-def printf(text, base_delay=0.01, jitter=0.02):
-    # Function to print text with a simulated typing effect
+# Function to print text with a simulated typing effect
+def printf(text, base_delay=0.023, jitter=0.02):
     for char in text:
         delay = max(0, base_delay + random.uniform(-jitter, jitter))
 
@@ -75,11 +81,9 @@ def printf(text, base_delay=0.01, jitter=0.02):
         print(char, end='', flush=True)
         time.sleep(delay)
 
-
+# Function to create a formatted table
 def create_table(text):
-    # Function to create a formatted table
     terminal_width = os.get_terminal_size().columns
-
     border = '*' * (terminal_width - 2)
 
     text_lines = text.split('\n')
@@ -91,8 +95,7 @@ def create_table(text):
 
     return table
 
-
-# Currency Converter
+# Currency Converter function
 def convert_currency(username):
     try:
         source_currency = inputf("Enter source currency (e.g., USD): ").upper()
@@ -106,21 +109,23 @@ def convert_currency(username):
         print("Error performing currency conversion:", str(e))
 
 # Function for user input with password complexity check
-
-
-def input_password(output):
+def input_password(output, login=False):
+    trying = 1
     while True:
         password = input(f"{output}")
         if is_password_complex(password):
             return password
         else:
-            print("\n\t[+] Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.")
+            if login:
+                trying += 1
+                if trying == 4:
+                    print("\n\t[+] Entering the password is restricted ")
+                    main()
+            print("\n\t[+] Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, and one digit. (e.g., inTe1@)")
 
 # Function to check password complexity
-
-
 def is_password_complex(password):
-    if len(password) < 8:
+    if len(password) < 6:
         return False
     if not any(char.isupper() for char in password):
         return False
@@ -130,8 +135,8 @@ def is_password_complex(password):
         return False
     return True
 
+# Main function for accounting operations
 def accounting_main(user_data, username):
-    # Main function for accounting operations
     if user_data:
         while True:
             user_data = data_refresh(username)
@@ -143,6 +148,7 @@ def accounting_main(user_data, username):
 
             while color1 == color2:
                 color2 = random.choice(bcolors)
+
             printf(color1)
             print(
                 create_table(
@@ -151,22 +157,22 @@ def accounting_main(user_data, username):
             )
             printf(color2)
 
-            printf("\n\t1. Deposit Money\n")
-            printf("\t2. Withdraw Money\n")
-            printf("\t3. View Deposit History\n")
-            printf("\t4. View Withdrawal History\n")
-            printf("\t5. Change Password\n")
-            printf("\t6. Export Data\n ")
-            printf("\t7. Convert Currency\n")
-            printf("\t8. Back\n")
-            printf("\t9. Logout\n")
+            printf("\n\t1. Deposit Money\n", base_delay=0.01)
+            printf("\t2. Withdraw Money\n", base_delay=0.01)
+            printf("\t3. View Deposit History\n", base_delay=0.01)
+            printf("\t4. View Withdrawal History\n", base_delay=0.01)
+            printf("\t5. Change Password\n", base_delay=0.01)
+            printf("\t6. Export Data\n ", base_delay=0.01)
+            printf("\t7. Convert Currency\n", base_delay=0.01)
+            printf("\t8. Back\n", base_delay=0.01)
+            printf("\t9. Account Delete \n", base_delay=0.01)
+            printf("\t10. Logout\n", base_delay=0.01)
 
             choice = inputf("\tEnter your choice: ")
 
             if choice == "1":
                 amount = float(inputf("\n\tEnter the amount to deposit: "))
-                target_id = inputf(
-                    "\n\tEnter the target user's ID or username: ")
+                target_id = inputf("\n\tEnter the target user's ID or username: ")
                 result = deposit(users, user_data['id'], target_id, amount)
                 if result:
                     user_data = data_refresh(username)
@@ -193,10 +199,10 @@ def accounting_main(user_data, username):
                     printf("\nDeposit History:")
                     for transaction in deposit_history:
                         printf(
-                            f"\n\tTimestamp: {transaction['timestamp']}, Amount: {transaction['amount']}, Target User ID: {transaction['target_user']}"
+                            f"\n\t [×] Timestamp: {transaction['timestamp']}, Amount: {transaction['amount']}, Target User ID: {transaction['target_user']}"
                         )
                 else:
-                    printf("\nNo deposit history.")
+                    printf("\n\tNo deposit history.")
 
             elif choice == "4":
                 withdrawal_history = get_withdrawal_history(users[username])
@@ -204,10 +210,11 @@ def accounting_main(user_data, username):
                     printf("\nWithdrawal History:")
                     for transaction in withdrawal_history:
                         printf(
-                            f"\n\tTimestamp: {transaction['timestamp']}, Amount: {transaction['amount']}"
+                            f"\n\t [×] Timestamp: {transaction['timestamp']}, Amount: {transaction['amount']}"
                         )
                 else:
-                    printf("\nNo withdrawal history.")
+                    printf("\n\tNo withdrawal history.")
+
             elif choice == "5":
                 old_password = input_password(
                     "\n\t\033[1;97m[>] Enter your old password: ")
@@ -223,14 +230,23 @@ def accounting_main(user_data, username):
                 else:
                     export_transactions_to_csv(username)
                     printf(
-                        "\n[+] Transaction data exported to CSV file.(data/transactions.csv}")
+                        "\n[+] Transaction data exported to CSV file. (data/transactions.csv}")
 
             elif choice == "7":
                 convert_currency(username)
+
             elif choice == "8":
                 break
 
             elif choice == "9":
+                ch = inputf("Do you want to Delete your account? (0-no/1-yes): ")
+                if "0" not in ch:
+                    del users[username]
+                    save_data(users)
+                    os.system("rm -rf data/cookie.txt")
+                    main()
+
+            elif choice == "10":
                 ch = inputf("Do you want to logout? (0-no/1-yes): ")
                 if "0" not in ch:
                     os.system("rm -rf data/cookie.txt")
@@ -241,19 +257,21 @@ def accounting_main(user_data, username):
     else:
         printf("You are not logged in. Please log in or sign up first.")
 
-
+# Main function for the entire application
 def main():
     global username
     while True:
         clear_screen()
         color1 = random.choice(bcolors)
         color2 = random.choice(bcolors)
+
         while color1 == color2:
             color2 = random.choice(bcolors)
+
         printf(color1)
         print(
             create_table(
-                f"\nWelcome to  Accounting System\n  ( by Intelliblitz Team ) \n"
+                f"\nWelcome to Accounting System\n  ( by Intelliblitz Team ) \n"
             )
         )
         printf(color2)
@@ -264,13 +282,24 @@ def main():
         choice = inputf("Enter your choice: ")
 
         if choice == "1":
-            username = inputf("Enter your username: ")
+            while True:
+                username = inputf("Enter your username: ")
+                if username:
+                    break
+                else:
+                    printf("\n\t[•] Username is Empty  ! \n")
+
             password = input_password(
-                "\n\t\033[1;97m[>] Enter your password:\033[0m ")
+                "\n\t\033[1;97m[>] Enter your password ( length: 6):\033[0m ")
             data = signup(users, username, password)
             if type(data) == str:
+                print("")
                 printf(data)
+                inputf("")
             else:
+                printf(
+                    "\n\t[•] The password will be saved automatically ! ", base_delay=0.025)
+                inputf("")
                 accounting_main(data, username)
 
         elif choice == "2":
@@ -278,7 +307,7 @@ def main():
                 check, username = logged()
             except Exception as b:
                 printf(
-                    f"\n\t If the password is correct, the username is incorrect, try again   "
+                    f"\n\t If the password is correct, the username is incorrect, try again   \n"
                 )
                 os.system("rm -rf data/cookie.txt")
                 inputf("")
@@ -287,24 +316,46 @@ def main():
             if check:
                 accounting_main(check, username)
             else:
+                    while True:
+                     username = inputf("Enter your username: ")
+                     if username:
+                        break
+                     else:
+                        printf("\n\t[•] Username is Empty  !\n ")
 
-                username = inputf("Enter your username: ")
-                password = getpass.getpass(
-                    "\n\t\033[1;97m[>] Enter your password:\033[0m ")
-                data = login(users, username, password)
+                    password = input_password(
+                        "\n\t\033[1;97m[>] Enter your password ( length: 6):\033[0m ", login=True)
 
-                if type(data) == str:
-                    printf(data)
+                    data = login(users, username, password)
 
-                else:
-                    logged(username, password)
-                    accounting_main(data, username)
+                    if type(data) == str:
+                        print("")
+                        printf(data)
+
+                        inputf("")
+
+                    else:
+                        logged(username, password)
+                        printf(
+                            "\n\t[•] The password will be saved automatically ! ", base_delay=0.025)
+                        inputf("")
+                        accounting_main(data, username)
 
         elif choice == "3":
             break
 
+# Entry point of the application
+def run():
+    try:
+        main()
+        printf(
+            "\n [•] Thank you for using CLI Accounting system ( by Intelliblitz Team ). Goodbye!")
+        exit()
+    except:
+        pass
+    
+        
 
+# Check if the script is being run directly
 if __name__ == "__main__":
-    main()
-    printf(
-        "\n [•] Thank you for using CLI Accounting system ( by Intelliblitz Team ). Goodbye!")
+    run()

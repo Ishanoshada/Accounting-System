@@ -64,7 +64,7 @@ Follow these steps to use the Accounting System:
 
 ## Contributors
 
-The Accounting System was developed by the dedicated team at Intelliblitz:
+The Accounting System was developed by the dedicated team at [Intelliblitz](https://github.com/Intelliblitz):
 
 - [Ishanoshada](https://github.com/Ishanoshada) - Project Lead & Developer
 - [Methupa Perera](https://github.com/methupaPerera) -  Developer

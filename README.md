@@ -68,7 +68,7 @@ The Accounting System was developed by the dedicated team at Intelliblitz:
 
 - [Ishanoshada](https://github.com/Ishanoshada) - Project Lead & Developer
 - [Methupa Perera](https://github.com/methupaPerera) -  Developer
-- [Janula](https://github.com/Janula) - Devloper
+- [Janula](https://github.com/jbsoftbox) - Devloper
 
 We are continuously working to improve and expand the capabilities of the Accounting System. If you'd like to contribute or report issues, please visit our [GitHub repository](https://github.com/Ishanoshada/Accounting-System).
 

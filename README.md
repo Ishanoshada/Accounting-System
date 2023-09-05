@@ -60,7 +60,7 @@ Follow these steps to use the Accounting System:
 3. Perform currency conversions when dealing with different currencies.
 4. Export your transaction data to a CSV file for your records.
 
-
+![System](https://raw.githubusercontent.com/Ishanoshada/Ishanoshada/main/ss/ezgif-2-01310731d7.gif)
 
 ## Contributors
 

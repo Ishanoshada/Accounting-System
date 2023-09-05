@@ -2,7 +2,9 @@
 
 ![Python](https://img.shields.io/badge/language-Python-blue?logo=python)
 
-Welcome to the Accounting System, a command-line based financial management tool developed by the Intelliblitz Team.
+Welcome to the Accounting System, a CLI-based financial management application developed by **Intelliblitz Team**. This Python-powered tool allows you to manage your finances, perform currency conversions, and keep track of your financial transactions easily.
+
+![Accounting System](demo.gif)
 
 ## Table of Contents
 - [Overview](#overview)
@@ -58,13 +60,13 @@ Follow these steps to use the Accounting System:
 3. Perform currency conversions when dealing with different currencies.
 4. Export your transaction data to a CSV file for your records.
 
-For a more detailed explanation of the system and its features, refer to the [documentation](https://github.com/Ishanoshada/Accounting-System).
+
 
 ## Contributors
 
 The Accounting System was developed by the dedicated team at Intelliblitz:
 
-- [Ishanoshada](https://github.com/Ishanoshada) - Lead Developer
+- [Ishanoshada](https://github.com/Ishanoshada) - Project Lead & Developer
 - [Methupa Perera](https://github.com/methupaPerera) -  Developer
 - [Janula](https://github.com/Janula) - Devloper
 

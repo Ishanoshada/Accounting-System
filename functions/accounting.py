@@ -206,5 +206,6 @@ def export_transactions_to_csv(username):
         writer.writerow(['Timestamp', 'Transaction Type', 'Amount'])
         for transaction in transactions:
             transaction_type = "Deposit" if "target_user" in transaction else "Withdrawal"
-            writer.writerow([transaction['timestamp'], transaction_type, transaction['amount']])
+            writer.writerow([transaction['timestamp'],
+                            transaction_type, transaction['amount']])
         return csv_export_file

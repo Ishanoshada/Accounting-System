@@ -70,7 +70,8 @@ def hash_password(password):
         hashed_password: The hashed password.
     """
     salt = uuid.uuid4().hex
-    hashed_password = hashlib.sha256(salt.encode() + password.encode()).hexdigest()
+    hashed_password = hashlib.sha256(
+        salt.encode() + password.encode()).hexdigest()
     return salt, hashed_password
 
 
@@ -135,7 +136,8 @@ def login(users, username, password):
 
         stored_password = users[username]["password"]
         salt = users[username]["salt"]
-        entered_password = hashlib.sha256(salt.encode() + password.encode()).hexdigest()
+        entered_password = hashlib.sha256(
+            salt.encode() + password.encode()).hexdigest()
         id = users[username]["id"]
 
         if entered_password == stored_password:
@@ -215,7 +217,8 @@ def change_password(users, username, old_password, new_password):
 
         stored_password = users[username]["password"]
         salt = users[username]["salt"]
-        entered_password = hashlib.sha256(salt.encode() + old_password.encode()).hexdigest()
+        entered_password = hashlib.sha256(
+            salt.encode() + old_password.encode()).hexdigest()
 
         if entered_password == stored_password:
             # Password matches, generate a new password hash

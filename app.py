@@ -38,7 +38,7 @@ bcolors = [
     '\033[96m',   # Cyan
     '\033[92m',   # Green
     '\033[93m',   # Yellow
-    '\033[1;33m', # Bold Yellow
+    '\033[1;33m',  # Bold Yellow
 ]
 
 # File paths and checking
@@ -61,6 +61,8 @@ except FileNotFoundError:
     users = {}
 
 # Function to clear the screen
+
+
 def clear_screen():
     # Check if the operating system is Windows
     if os.name == 'nt':
@@ -69,10 +71,14 @@ def clear_screen():
         os.system('clear')
 
 # Function for user input
+
+
 def inputf(output):
     return input(f"\n\n\t\033[1;97m[>] {output}")
 
 # Function to print text with a simulated typing effect
+
+
 def printf(text, base_delay=0.023, jitter=0.02):
     for char in text:
         delay = max(0, base_delay + random.uniform(-jitter, jitter))
@@ -82,6 +88,8 @@ def printf(text, base_delay=0.023, jitter=0.02):
         time.sleep(delay)
 
 # Function to create a formatted table
+
+
 def create_table(text):
     terminal_width = os.get_terminal_size().columns
     border = '*' * (terminal_width - 2)
@@ -96,19 +104,24 @@ def create_table(text):
     return table
 
 # Currency Converter function
+
+
 def convert_currency(username):
     try:
         source_currency = inputf("Enter source currency (e.g., USD): ").upper()
         target_currency = inputf("Enter target currency (e.g., EUR): ").upper()
         amount = float(inputf("Enter the amount to convert: "))
 
-        result = currency_converter.convert(source_currency, target_currency, amount)
+        result = currency_converter.convert(
+            source_currency, target_currency, amount)
         printf(
             f"\n\t Result :> {amount} {source_currency} is approximately {result} {target_currency}")
     except Exception as e:
         print("Error performing currency conversion:", str(e))
 
 # Function for user input with password complexity check
+
+
 def input_password(output, login=False):
     trying = 1
     while True:
@@ -124,6 +137,8 @@ def input_password(output, login=False):
             print("\n\t[+] Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, and one digit. (e.g., inTe1@)")
 
 # Function to check password complexity
+
+
 def is_password_complex(password):
     if len(password) < 6:
         return False
@@ -136,6 +151,8 @@ def is_password_complex(password):
     return True
 
 # Main function for accounting operations
+
+
 def accounting_main(user_data, username):
     if user_data:
         while True:
@@ -172,7 +189,8 @@ def accounting_main(user_data, username):
 
             if choice == "1":
                 amount = float(inputf("\n\tEnter the amount to deposit: "))
-                target_id = inputf("\n\tEnter the target user's ID or username: ")
+                target_id = inputf(
+                    "\n\tEnter the target user's ID or username: ")
                 result = deposit(users, user_data['id'], target_id, amount)
                 if result:
                     user_data = data_refresh(username)
@@ -239,7 +257,8 @@ def accounting_main(user_data, username):
                 break
 
             elif choice == "9":
-                ch = inputf("Do you want to Delete your account? (0-no/1-yes): ")
+                ch = inputf(
+                    "Do you want to Delete your account? (0-no/1-yes): ")
                 if "0" not in ch:
                     del users[username]
                     save_data(users)
@@ -258,6 +277,8 @@ def accounting_main(user_data, username):
         printf("You are not logged in. Please log in or sign up first.")
 
 # Main function for the entire application
+
+
 def main():
     global username
     while True:
@@ -316,35 +337,37 @@ def main():
             if check:
                 accounting_main(check, username)
             else:
-                    while True:
-                     username = inputf("Enter your username: ")
-                     if username:
+                while True:
+                    username = inputf("Enter your username: ")
+                    if username:
                         break
-                     else:
+                    else:
                         printf("\n\t[•] Username is Empty  !\n ")
 
-                    password = input_password(
-                        "\n\t\033[1;97m[>] Enter your password ( length: 6):\033[0m ", login=True)
+                password = input_password(
+                    "\n\t\033[1;97m[>] Enter your password ( length: 6):\033[0m ", login=True)
 
-                    data = login(users, username, password)
+                data = login(users, username, password)
 
-                    if type(data) == str:
-                        print("")
-                        printf(data)
+                if type(data) == str:
+                    print("")
+                    printf(data)
 
-                        inputf("")
+                    inputf("")
 
-                    else:
-                        logged(username, password)
-                        printf(
-                            "\n\t[•] The password will be saved automatically ! ", base_delay=0.025)
-                        inputf("")
-                        accounting_main(data, username)
+                else:
+                    logged(username, password)
+                    printf(
+                        "\n\t[•] The password will be saved automatically ! ", base_delay=0.025)
+                    inputf("")
+                    accounting_main(data, username)
 
         elif choice == "3":
             break
 
 # Entry point of the application
+
+
 def run():
     try:
         main()
@@ -353,8 +376,7 @@ def run():
         exit()
     except:
         pass
-    
-        
+
 
 # Check if the script is being run directly
 if __name__ == "__main__":

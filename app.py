@@ -106,7 +106,7 @@ def create_table(text):
 # Currency Converter function
 
 
-def convert_currency(username):
+def convert_currency():
     try:
         source_currency = inputf("Enter source currency (e.g., USD): ").upper()
         target_currency = inputf("Enter target currency (e.g., EUR): ").upper()
@@ -251,7 +251,7 @@ def accounting_main(user_data, username):
                         "\n[+] Transaction data exported to CSV file. (data/transactions.csv}")
 
             elif choice == "7":
-                convert_currency(username)
+                convert_currency()
 
             elif choice == "8":
                 break

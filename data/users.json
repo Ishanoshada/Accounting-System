@@ -1,8 +1,8 @@
 {
     "methupa": {
-        "id": "188239594",
-        "salt": "195e088cf5124048b3b4a1bc19bb9b82",
-        "password": "48299e1e43d0d17b844262b2692c2e3bee8c6210d7dfbd9f1ff8a69171d26ab9",
+        "id": "188252445",
+        "salt": "3e4ea6f454354ab989062b3e2043cf8e",
+        "password": "ea365b697ec2bec904d37f977055eaabd9c3fdb1cd9aa8d49e38a1b8fd2b148e",
         "balance": 0,
         "deposit_history": [],
         "withdrawal_history": []

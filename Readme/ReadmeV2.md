@@ -73,5 +73,4 @@ What sets the Accounting System apart:
 - **Data Export**: Offering data export to CSV files provides users with greater control over their financial data.
 - **Comprehensive CLI**: The project combines diverse functionalities into a single, user-friendly command-line interface.
 
-In conclusion, the Accounting System is a versatile Python project that addresses key challenges in personal finance management. Its modular code structure, strong user authentication, currency conversion, password complexity, and data export capabilities make it a robust tool for users seeking a comprehensive financial management solution.
-
+In conclusion, the Accounting System is a versatile Python project that addresses key challenges in personal finance management. Its modular code structure, strong user authentication, currency conversion, password complexity, and data export capabilities make it a robust tool for users seeking a comprehensive financial management solution

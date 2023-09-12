@@ -91,5 +91,4 @@
 
 ## Conclusion
 - Summarize the key points.
-- Express gratitude for exploring the Accounting System code.
-
+- Express gratitude for exploring the Accounting System code

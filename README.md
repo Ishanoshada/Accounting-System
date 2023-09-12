@@ -2,6 +2,7 @@
 
 ![Python](https://img.shields.io/badge/language-Python-blue?logo=python)
 
+
 Welcome to the Accounting System, a CLI-based financial management application developed by **Intelliblitz Team**. This Python-powered tool allows you to manage your finances, perform currency conversions, and keep track of your financial transactions easily.
 
 ![Accounting System](https://raw.githubusercontent.com/Ishanoshada/Ishanoshada/main/ss/ezgif-2-cdb07de627.gif)

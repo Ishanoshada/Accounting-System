@@ -73,6 +73,8 @@ The Accounting System was developed by the dedicated team at [Intelliblitz](http
 
 We are continuously working to improve and expand the capabilities of the Accounting System. If you'd like to contribute or report issues, please visit our [GitHub repository](https://github.com/Ishanoshada/Accounting-System).
 
+**Repository Views** ![Views](https://profile-counter.glitch.me/Acc-System/count.svg)
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
